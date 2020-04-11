@@ -1,0 +1,35 @@
+﻿<Window x:Class="Calendar.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Calendar"
+        mc:Ignorable="d"
+        Title="Calendar" Height="450" Width="800">
+    <Grid>
+        <Button x:Name="BtnNextMonth" Content="Next Month" HorizontalAlignment="Left" Margin="700,10,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="BtnLastMonth" Content="Last Month" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label x:Name="MonthLabel"  Content="Mes" HorizontalAlignment="Left" Margin="220,10,0,0" VerticalAlignment="Top" Width="125"/>
+        <Label x:Name="YearLabel" Content="Año" HorizontalAlignment="Left" Margin="459,10,0,0" VerticalAlignment="Top" Width="75"/>
+        <Grid x:Name="CalendarGrid" HorizontalAlignment="Left" Height="350" Margin="15,70,0,0" VerticalAlignment="Top" Width="760" ShowGridLines="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+        </Grid>
+
+    </Grid>
+</Window>
