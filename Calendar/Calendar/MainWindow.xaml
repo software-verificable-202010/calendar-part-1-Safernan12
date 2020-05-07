@@ -5,31 +5,132 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calendar"
         mc:Ignorable="d"
-        Title="Calendar" Height="450" Width="800">
-    <Grid>
-        <Button x:Name="BtnNextMonth" Content="Next Month" HorizontalAlignment="Left" Margin="700,10,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="BtnLastMonth" Content="Last Month" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" Width="75"/>
-        <Label x:Name="MonthLabel"  Content="Mes" HorizontalAlignment="Left" Margin="220,10,0,0" VerticalAlignment="Top" Width="125"/>
-        <Label x:Name="YearLabel" Content="Año" HorizontalAlignment="Left" Margin="459,10,0,0" VerticalAlignment="Top" Width="75"/>
-        <Grid x:Name="CalendarGrid" HorizontalAlignment="Left" Height="350" Margin="15,70,0,0" VerticalAlignment="Top" Width="760" ShowGridLines="True">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
+        Title="Calendar" Height="600" Width="900">
+    <Grid  Margin="80,0,15,0">
+        <Grid x:Name="MainGrid">
+            <Button x:Name="BtnNextValue" Content="Next Month" HorizontalAlignment="Left" Margin="700,10,0,0" VerticalAlignment="Top" Width="75"/>
+            <Button x:Name="BtnLastValue" Content="Last Month" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" Width="75"/>
+            <Button x:Name="BtnNewSchedule" Content="+" HorizontalAlignment="Left" Margin="-59,10,0,0" VerticalAlignment="Top" Width="30" Height="20" Click="BtnNewSchedule_Click"/>
+            <Label x:Name="MonthLabel"  Content="Mes" HorizontalAlignment="Left" Margin="220,10,0,0" VerticalAlignment="Top" Width="125" MouseDoubleClick="BtnFocusMonth"/>
+            <Label x:Name="YearLabel" Content="Año" HorizontalAlignment="Left" Margin="459,10,0,0" VerticalAlignment="Top" Width="75"/>
+            <Grid x:Name="DayNamesGrid" HorizontalAlignment="Left" Height="30" ShowGridLines="True" Margin="15,64,0,0" VerticalAlignment="Top" Width="760">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <Grid x:Name="CalendarGrid" HorizontalAlignment="Left" Height="450" Margin="15,99,0,0" VerticalAlignment="Top" Width="760" ShowGridLines="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <Grid x:Name="TimeTableGrid" HorizontalAlignment="Left" Height="450" Margin="-70,99,0,0" VerticalAlignment="Top" Width="60"  ShowGridLines="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="00:00" Padding="0" />
+                <Label Grid.Row="1" Content="01:00" Padding="0" />
+                <Label Grid.Row="2" Content="02:00" Padding="0" />
+                <Label Grid.Row="3" Content="03:00" Padding="0" />
+                <Label Grid.Row="4" Content="04:00" Padding="0" />
+                <Label Grid.Row="5" Content="05:00" Padding="0" />
+                <Label Grid.Row="6" Content="06:00" Padding="0" />
+                <Label Grid.Row="7" Content="07:00" Padding="0" />
+                <Label Grid.Row="8" Content="08:00" Padding="0" />
+                <Label Grid.Row="9" Content="09:00" Padding="0" />
+                <Label Grid.Row="10" Content="10:00" Padding="0" />
+                <Label Grid.Row="11" Content="11:00" Padding="0" />
+                <Label Grid.Row="12" Content="12:00" Padding="0" />
+                <Label Grid.Row="13" Content="13:00" Padding="0" />
+                <Label Grid.Row="14" Content="14:00" Padding="0" />
+                <Label Grid.Row="15" Content="15:00" Padding="0" />
+                <Label Grid.Row="16" Content="16:00" Padding="0" />
+                <Label Grid.Row="17" Content="17:00" Padding="0" />
+                <Label Grid.Row="18" Content="18:00" Padding="0" />
+                <Label Grid.Row="19" Content="19:00" Padding="0" />
+                <Label Grid.Row="20" Content="20:00" Padding="0" />
+                <Label Grid.Row="21" Content="21:00" Padding="0" />
+                <Label Grid.Row="22" Content="22:00" Padding="0" />
+                <Label Grid.Row="23" Content="23:00" Padding="0" />
+            </Grid>
         </Grid>
+        <Grid x:Name="ScheduleFormGrid" Visibility="Collapsed">
 
+            <Button Content="Create Schedule" Click="BtnCreateNewSchedule_Click" HorizontalAlignment="Left" Margin="310,360,0,0" VerticalAlignment="Top" Width="125"/>
+            <Button Content="Cancel" Click="CancelSchedule_Click" HorizontalAlignment="Left" Margin="335,400,0,0" VerticalAlignment="Top" Width="75"/>
+            <Label Content="Title" HorizontalAlignment="Left" Margin="190,90,0,0" VerticalAlignment="Top"/>
+            <Label Content="Description" HorizontalAlignment="Left" Margin="190,120,0,0" VerticalAlignment="Top"/>
+            <Label Content="Starting Date" HorizontalAlignment="Left" Margin="190,220,0,0" VerticalAlignment="Top"/>
+            <Label Content="Starting Hour" HorizontalAlignment="Left" Margin="190,250,0,0" VerticalAlignment="Top"/>
+            <Label Content="Ending Hour" HorizontalAlignment="Left" Margin="190,280,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="ScheduleTitleTextBox" HorizontalAlignment="Left" Height="20" Margin="335,90,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="ScheduleDescriptionTextBox" HorizontalAlignment="Left" Margin="335,120,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="250" Height="90"/>
+
+            <DatePicker x:Name="DateStartInput" HorizontalAlignment="Left" IsTodayHighlighted="True" VerticalAlignment="Top" Margin="335,220,0,0"/>
+            <ComboBox x:Name="StartingHourComboBox" Margin="335,250,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" SelectionChanged="StartingHourComboBox_SelectionChanged">
+                <ComboBoxItem Content="00:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="01:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="02:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="03:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="04:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="05:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="06:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="07:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="08:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="09:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="10:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="11:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="12:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="13:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="14:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="15:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="16:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="17:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="18:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="19:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="20:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="21:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="22:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="23:00" HorizontalAlignment="Left" Width="118"/>
+            </ComboBox>
+            <ComboBox x:Name="EndingHourComboBox" Margin="335,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120">
+            </ComboBox>
+
+        </Grid>
     </Grid>
+
 </Window>
