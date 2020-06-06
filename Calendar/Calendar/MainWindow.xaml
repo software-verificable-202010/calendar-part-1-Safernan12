@@ -7,10 +7,11 @@
         mc:Ignorable="d"
         Title="Calendar" Height="600" Width="900">
     <Grid  Margin="80,0,15,0">
-        <Grid x:Name="MainGrid">
+        <Grid x:Name="MainGrid" Visibility="Collapsed">
             <Button x:Name="BtnNextValue" Content="Next Month" HorizontalAlignment="Left" Margin="700,10,0,0" VerticalAlignment="Top" Width="75"/>
             <Button x:Name="BtnLastValue" Content="Last Month" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" Width="75"/>
-            <Button x:Name="BtnNewSchedule" Content="+" HorizontalAlignment="Left" Margin="-59,10,0,0" VerticalAlignment="Top" Width="30" Height="20" Click="BtnNewSchedule_Click"/>
+            <Button x:Name="BtnMenu" Content="Menu" HorizontalAlignment="Left" Margin="-70,10,0,0" VerticalAlignment="Top" Width="50" Height="20" Click="BtnMenu_Click"/>
+            <Button x:Name="BtnNewSchedule" Content="+" HorizontalAlignment="Left" Margin="-59,50,0,0" VerticalAlignment="Top" Width="25" Height="20" Click="BtnNewSchedule_Click" RenderTransformOrigin="-0.48,0.55"/>
             <Label x:Name="MonthLabel"  Content="Mes" HorizontalAlignment="Left" Margin="220,10,0,0" VerticalAlignment="Top" Width="125" MouseDoubleClick="BtnFocusMonth"/>
             <Label x:Name="YearLabel" Content="Año" HorizontalAlignment="Left" Margin="459,10,0,0" VerticalAlignment="Top" Width="75"/>
             <Grid x:Name="DayNamesGrid" HorizontalAlignment="Left" Height="30" ShowGridLines="True" Margin="15,64,0,0" VerticalAlignment="Top" Width="760">
@@ -88,10 +89,10 @@
                 <Label Grid.Row="23" Content="23:00" Padding="0" />
             </Grid>
         </Grid>
-        <Grid x:Name="ScheduleFormGrid" Visibility="Collapsed">
+        <Grid x:Name="ScheduleFormGrid"  Visibility="Collapsed">
 
-            <Button Content="Create Schedule" Click="BtnCreateNewSchedule_Click" HorizontalAlignment="Left" Margin="310,360,0,0" VerticalAlignment="Top" Width="125"/>
-            <Button Content="Cancel" Click="CancelSchedule_Click" HorizontalAlignment="Left" Margin="335,400,0,0" VerticalAlignment="Top" Width="75"/>
+            <Button Content="Create Schedule" Click="BtnCreateNewSchedule_Click" HorizontalAlignment="Left" Margin="310,440,0,0" VerticalAlignment="Top" Width="125"/>
+            <Button Content="Cancel" Click="CancelSchedule_Click" HorizontalAlignment="Left" Margin="335,475,0,0" VerticalAlignment="Top" Width="75"/>
             <Label Content="Title" HorizontalAlignment="Left" Margin="190,90,0,0" VerticalAlignment="Top"/>
             <Label Content="Description" HorizontalAlignment="Left" Margin="190,120,0,0" VerticalAlignment="Top"/>
             <Label Content="Starting Date" HorizontalAlignment="Left" Margin="190,220,0,0" VerticalAlignment="Top"/>
@@ -130,6 +131,12 @@
             <ComboBox x:Name="EndingHourComboBox" Margin="335,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120">
             </ComboBox>
 
+        </Grid>
+        <Grid x:Name="MenuGrid">
+            <Label Content="Account Login" HorizontalAlignment="Left" Margin="347,90,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.344,0.5"/>
+            <TextBox x:Name="UsernameTextBox" HorizontalAlignment="Left" Height="20" Margin="300,130,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="195"/>
+            <Button x:Name="BtnUserConfirm" Content="Confirm" HorizontalAlignment="Left" Margin="355,180,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="0.04,-0.3" Click="BtnUserConfirm_Click"/>
+            <Button x:Name="BtnUserCancel" Content="Go Back" HorizontalAlignment="Left" Margin="355,260,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="0.04,-0.3" Click="BtnUserCancel_Click" Visibility="Collapsed"/>
         </Grid>
     </Grid>
 

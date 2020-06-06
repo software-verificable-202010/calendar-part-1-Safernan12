@@ -12,6 +12,7 @@ namespace Calendar
         String Description;
         DateTime DateStart;
         DateTime DateEnd;
+        private List<User> InviteeList = new List<User>();
 
         public Schedule(String title, String description, DateTime date_start, DateTime date_end)
         {
@@ -21,7 +22,7 @@ namespace Calendar
             DateEnd = date_end;
         }
 
-        public Boolean checkStartingDate(int year, int month, int day)
+        public Boolean CheckStartingDate(int year, int month, int day)
         {
             if ((DateStart.Year == year) && (DateStart.Month == month) && (DateStart.Day == day)){
                 return true;
@@ -30,22 +31,32 @@ namespace Calendar
             return false;
         }
 
-        public String getTitle()
+        public void AddInvitee(User Invitee)
+        {
+            InviteeList.Add(Invitee);
+        }
+
+        public List<User> GetInviteeList()
+        {
+            return InviteeList;
+        }
+
+        public String GetTitle()
         {
             return Title;
         }
 
-        public String getDescription()
+        public String GetDescription()
         {
             return Description;
         }
 
-        public DateTime getStartingDate()
+        public DateTime GetStartingDate()
         {
             return DateStart;
         }
 
-        public DateTime getEndingDate()
+        public DateTime GetEndingDate()
         {
             return DateEnd;
         }

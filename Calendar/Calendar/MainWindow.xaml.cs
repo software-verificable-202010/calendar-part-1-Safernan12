@@ -28,7 +28,8 @@ namespace Calendar
         public string[] DaysNames = { "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo" };
         public string[] HoursNames = { "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24:00", };
         public string CurrentMode = "MONTH";
-        private List<Schedule> ScheduleList = new List<Schedule>();
+        private User currentUser;
+        private List<User> UserList = new List<User>();
         public int DaysInMonth;
 
         public MainWindow()
@@ -38,7 +39,6 @@ namespace Calendar
             CurrentYear = DateTime.Now.Year;
             BtnNextValue.Click += BtnNextValue_Click;
             BtnLastValue.Click += BtnLastValue_Click;
-            DrawMonthCalendar(CurrentMonth, CurrentYear);
         }
 
         public void BuildRows(string type)
@@ -134,6 +134,7 @@ namespace Calendar
             int TotalCollumns = 7;
             int TotalRows = 7;
             int DateNumber = 1;
+            List<Schedule> ScheduleList = GetAllSchedules();
 
             CalendarGrid.Children.Clear();
 
@@ -160,12 +161,12 @@ namespace Calendar
 
                 daygrid.Children.Add(label);
 
-                if (ScheduleList.Exists(x => x.checkStartingDate(CurrentYear, CurrentMonth, DateNumber))){
-                    Schedule schedule = ScheduleList.Find(x => x.checkStartingDate(CurrentYear, CurrentMonth, DateNumber));
+                if (ScheduleList.Exists(x => x.CheckStartingDate(CurrentYear, CurrentMonth, DateNumber))){
+                    Schedule schedule = ScheduleList.Find(x => x.CheckStartingDate(CurrentYear, CurrentMonth, DateNumber));
                     Border ScheduleBorder = new Border()
                     {
                         Background = Brushes.Blue,
-                        Child = new TextBlock() { Text = schedule.getTitle(),
+                        Child = new TextBlock() { Text = schedule.GetTitle(),
                                                   Foreground = Brushes.White}
                     };
                     daygrid.Children.Add(ScheduleBorder);
@@ -195,15 +196,15 @@ namespace Calendar
                         label.MouseDoubleClick += (s, e) => BtnFocusWeek(s, e);
                         daygrid.Children.Add(label);
 
-                        if (ScheduleList.Exists(x => x.checkStartingDate(CurrentYear, CurrentMonth, DateNumber)))
+                        if (ScheduleList.Exists(x => x.CheckStartingDate(CurrentYear, CurrentMonth, DateNumber)))
                         {
-                            Schedule schedule = ScheduleList.Find(x => x.checkStartingDate(CurrentYear, CurrentMonth, DateNumber));
+                            Schedule schedule = ScheduleList.Find(x => x.CheckStartingDate(CurrentYear, CurrentMonth, DateNumber));
                             Border ScheduleBorder = new Border()
                             {
                                 Background = Brushes.Blue,
                                 Child = new TextBlock()
                                 {
-                                    Text = schedule.getTitle(),
+                                    Text = schedule.GetTitle(),
                                     Foreground = Brushes.White
                                 }
                             };
@@ -229,6 +230,7 @@ namespace Calendar
             YearLabel.Content = year.ToString();
             DaysInMonth = DateTime.DaysInMonth(year, month);
             NameDaysLabels();
+            List<Schedule> ScheduleList = GetAllSchedules();
             int TotalCollumns = 7;
             int FirstColumn = 0;
             int LastMonth = 12;
@@ -252,16 +254,16 @@ namespace Calendar
             {
                 if (LastDayofLastMonth == 0)
                 {
-                    if (ScheduleList.Exists(x => x.checkStartingDate(CurrentYear, CurrentMonth, DateNumber)))
+                    if (ScheduleList.Exists(x => x.CheckStartingDate(CurrentYear, CurrentMonth, DateNumber)))
                     {
-                        PaintWeekSchedule(CurrentYear, CurrentMonth, DateNumber, column);
+                        PaintWeekSchedule(CurrentYear, CurrentMonth, DateNumber, column, ScheduleList);
                     }
                 }
                 else
                 {
-                    if (ScheduleList.Exists(x => x.checkStartingDate(CurrentYear, CurrentMonth, DateNumber)))
+                    if (ScheduleList.Exists(x => x.CheckStartingDate(CurrentYear, CurrentMonth, DateNumber)))
                     {
-                        PaintWeekSchedule(CurrentYear+SubstractionValue, LastMonth, DateNumber, column);
+                        PaintWeekSchedule(CurrentYear+SubstractionValue, LastMonth, DateNumber, column, ScheduleList);
                     }
                     if (LastDayofLastMonth == DateNumber)
                     {
@@ -274,11 +276,11 @@ namespace Calendar
 
         }
 
-        private void PaintWeekSchedule(int year, int month, int day, int column)
+        private void PaintWeekSchedule(int year, int month, int day, int column, List<Schedule> ScheduleList)
         {
-            Schedule schedule = ScheduleList.Find(x => x.checkStartingDate(CurrentYear, CurrentMonth, day));
-            int StartingHour = schedule.getStartingDate().Hour;
-            int EndingHour = schedule.getEndingDate().Hour;
+            Schedule schedule = ScheduleList.Find(x => x.CheckStartingDate(CurrentYear, CurrentMonth, day));
+            int StartingHour = schedule.GetStartingDate().Hour;
+            int EndingHour = schedule.GetEndingDate().Hour;
             if (EndingHour == 0)
             {
                 EndingHour = 24;
@@ -289,7 +291,7 @@ namespace Calendar
                 Background = Brushes.Blue,
                 Child = new TextBlock()
                 {
-                    Text = schedule.getTitle(),
+                    Text = schedule.GetTitle(),
                     Foreground = Brushes.White
                 }
             };
@@ -312,7 +314,6 @@ namespace Calendar
                 Grid.SetColumn(ScheduleRectangle, column);
             }
         }
-
 
         private int GetFirstDayValue(int year, int month)
         {
@@ -450,6 +451,34 @@ namespace Calendar
             return NewFocusedDay;
         }
 
+        private List<Schedule> GetAllSchedules()
+        {
+            List<Schedule> ScheduleList = currentUser.GetSchedule();
+
+            foreach (User user in UserList)
+            {
+                if (user != currentUser)
+                {
+                    List<Schedule> selectedUserSchedule = user.GetSchedule();
+                    foreach (Schedule selectedSchedule in selectedUserSchedule)
+                    {
+                        if (selectedSchedule.GetInviteeList().Exists(x => x == user))
+                        {
+                            ScheduleList.Add(selectedSchedule);
+                        }
+                    }
+                }
+            }
+
+
+            return ScheduleList;
+        }
+
+
+
+
+
+
         private void BtnFocusWeek(object sender, MouseButtonEventArgs e)
         {
             FocusedDay = (int)(sender as Label).Content;
@@ -467,6 +496,31 @@ namespace Calendar
         {
             MainGrid.Visibility = Visibility.Collapsed;
             ScheduleFormGrid.Visibility = Visibility.Visible;
+        }
+
+        private void BtnUserConfirm_Click(object sender, RoutedEventArgs e)
+        {
+            String username = UsernameTextBox.Text;
+            if (username == "")
+            {
+                MessageBox.Show("You have to choose a Username", "Error");
+            }
+            else
+            {
+                if (UserList.Exists(x => x.GetUsername() == username))
+                {
+                    currentUser = UserList.Find(x => x.GetUsername() == username);
+                }
+                else
+                {
+                    User user = new User(username);
+                    UserList.Add(user);
+                    currentUser = user;
+                }
+                MainGrid.Visibility = Visibility.Visible;
+                MenuGrid.Visibility = Visibility.Collapsed;
+                DrawMonthCalendar(CurrentMonth, CurrentYear);
+            }
         }
 
         private void BtnCreateNewSchedule_Click(object sender, RoutedEventArgs e)
@@ -487,7 +541,7 @@ namespace Calendar
                 DateTime date_end = (DateTime)DateStartInput.SelectedDate;
                 date_start = date_start.AddHours(starting_hour);
                 date_end = date_end.AddHours(ending_hour);
-                ScheduleList.Add(new Schedule(title, description, date_start, date_end));
+                currentUser.AddSchedule(new Schedule(title, description, date_start, date_end));
                 MainGrid.Visibility = Visibility.Visible;
                 ScheduleFormGrid.Visibility = Visibility.Collapsed;
                 if (CurrentMode == "MONTH")
@@ -500,6 +554,19 @@ namespace Calendar
                 }
 
             }
+        }
+
+        private void BtnMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MainGrid.Visibility = Visibility.Collapsed;
+            MenuGrid.Visibility = Visibility.Visible;
+            BtnUserCancel.Visibility = Visibility.Visible;
+        }
+
+        private void BtnUserCancel_Click(object sender, RoutedEventArgs e)
+        {
+            MainGrid.Visibility = Visibility.Visible;
+            MenuGrid.Visibility = Visibility.Collapsed;
         }
 
         private void CancelSchedule_Click(object sender, RoutedEventArgs e)
