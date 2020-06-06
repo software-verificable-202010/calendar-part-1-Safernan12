@@ -10,8 +10,9 @@
         <Grid x:Name="MainGrid" Visibility="Collapsed">
             <Button x:Name="BtnNextValue" Content="Next Month" HorizontalAlignment="Left" Margin="700,10,0,0" VerticalAlignment="Top" Width="75"/>
             <Button x:Name="BtnLastValue" Content="Last Month" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" Width="75"/>
-            <Button x:Name="BtnMenu" Content="Menu" HorizontalAlignment="Left" Margin="-70,10,0,0" VerticalAlignment="Top" Width="50" Height="20" Click="BtnMenu_Click"/>
-            <Button x:Name="BtnNewSchedule" Content="+" HorizontalAlignment="Left" Margin="-59,50,0,0" VerticalAlignment="Top" Width="25" Height="20" Click="BtnNewSchedule_Click" RenderTransformOrigin="-0.48,0.55"/>
+            <Button x:Name="BtnMenu" Content="User" HorizontalAlignment="Left" Margin="-70,10,0,0" VerticalAlignment="Top" Width="50" Height="20" Click="BtnMenu_Click"/>
+            <Button x:Name="BtnNewSchedule" Content="New" HorizontalAlignment="Left" Margin="-70,35,0,0" VerticalAlignment="Top" Width="50" Height="20" Click="BtnNewSchedule_Click" RenderTransformOrigin="-0.48,0.55"/>
+            <Button x:Name="BtnEditSchedule" Content="Edit" HorizontalAlignment="Left" Margin="-70,60,0,0" VerticalAlignment="Top" Width="50" Height="20" Click="BtnEditSchedule_Click"/>
             <Label x:Name="MonthLabel"  Content="Mes" HorizontalAlignment="Left" Margin="220,10,0,0" VerticalAlignment="Top" Width="125" MouseDoubleClick="BtnFocusMonth"/>
             <Label x:Name="YearLabel" Content="Año" HorizontalAlignment="Left" Margin="459,10,0,0" VerticalAlignment="Top" Width="75"/>
             <Grid x:Name="DayNamesGrid" HorizontalAlignment="Left" Height="30" ShowGridLines="True" Margin="15,64,0,0" VerticalAlignment="Top" Width="760">
@@ -137,6 +138,81 @@
             <TextBox x:Name="UsernameTextBox" HorizontalAlignment="Left" Height="20" Margin="300,130,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="195"/>
             <Button x:Name="BtnUserConfirm" Content="Confirm" HorizontalAlignment="Left" Margin="355,180,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="0.04,-0.3" Click="BtnUserConfirm_Click"/>
             <Button x:Name="BtnUserCancel" Content="Go Back" HorizontalAlignment="Left" Margin="355,260,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="0.04,-0.3" Click="BtnUserCancel_Click" Visibility="Collapsed"/>
+        </Grid>
+
+        <Grid x:Name="EditScheduleFormGrid" Visibility="Collapsed">
+            <Button Content="Edit Schedule" Click="BtnEditCurrentSchedule_Click" HorizontalAlignment="Left" Margin="310,410,0,0" VerticalAlignment="Top" Width="125"/>
+            <Button Content="Remove Schedule" Click="BtnRemoveSchedule_Click" HorizontalAlignment="Left" Margin="310,440,0,0" VerticalAlignment="Top" Width="125"/>
+            <Button Content="Cancel" Click="CancelSchedule_Click" HorizontalAlignment="Left" Margin="335,475,0,0" VerticalAlignment="Top" Width="75"/>
+            <Button Content="+" Click="BtnAddInvitee_Click" HorizontalAlignment="Left" Margin="460,310,0,0" VerticalAlignment="Top" Width="20"/>
+            <Label Content="Schedule" HorizontalAlignment="Left" Margin="190,60,0,0" VerticalAlignment="Top"/>
+            <Label Content="Title" HorizontalAlignment="Left" Margin="190,90,0,0" VerticalAlignment="Top"/>
+            <Label Content="Description" HorizontalAlignment="Left" Margin="190,120,0,0" VerticalAlignment="Top"/>
+            <Label Content="Starting Date" HorizontalAlignment="Left" Margin="190,220,0,0" VerticalAlignment="Top"/>
+            <Label Content="Starting Hour" HorizontalAlignment="Left" Margin="190,250,0,0" VerticalAlignment="Top"/>
+            <Label Content="Ending Hour" HorizontalAlignment="Left" Margin="190,280,0,0" VerticalAlignment="Top"/>
+            <Label Content="Invite Person" HorizontalAlignment="Left" Margin="190,310,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="EditScheduleTitleTextBox" HorizontalAlignment="Left" Height="20" Margin="335,90,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="EditScheduleDescriptionTextBox" HorizontalAlignment="Left" Margin="335,120,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="250" Height="90"/>
+
+            <DatePicker x:Name="EditDateStartInput" HorizontalAlignment="Left" IsTodayHighlighted="True" VerticalAlignment="Top" Margin="335,220,0,0"/>
+            <ComboBox x:Name="EditStartingHourComboBox" Margin="335,250,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120">
+                <ComboBoxItem Content="00:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="01:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="02:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="03:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="04:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="05:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="06:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="07:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="08:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="09:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="10:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="11:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="12:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="13:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="14:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="15:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="16:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="17:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="18:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="19:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="20:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="21:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="22:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="23:00" HorizontalAlignment="Left" Width="118"/>
+            </ComboBox>
+            <ComboBox x:Name="EditEndingHourComboBox" Margin="335,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120">
+                <ComboBoxItem Content="00:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="01:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="02:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="03:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="04:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="05:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="06:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="07:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="08:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="09:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="10:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="11:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="12:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="13:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="14:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="15:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="16:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="17:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="18:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="19:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="20:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="21:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="22:00" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="23:00" HorizontalAlignment="Left" Width="118"/>
+            </ComboBox>
+            <ComboBox x:Name="SelectScheduleComboBox" Margin="335,60,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" SelectionChanged="SelectScheduleComboBox_SelectionChanged">
+            </ComboBox>
+            <ComboBox x:Name="AddInviteeComboBox" Margin="335,310,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120">
+            </ComboBox>
+
         </Grid>
     </Grid>
 

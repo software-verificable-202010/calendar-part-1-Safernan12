@@ -29,6 +29,7 @@ namespace Calendar
         public string[] HoursNames = { "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24:00", };
         public string CurrentMode = "MONTH";
         private User currentUser;
+        private Schedule selectedSchedule;
         private List<User> UserList = new List<User>();
         public int DaysInMonth;
 
@@ -373,6 +374,80 @@ namespace Calendar
 
         }
 
+        private int CalculateFocusedDay(int FocusedDay, int Month)
+        {
+            int DaysInNewMonth = DateTime.DaysInMonth(CurrentYear, Month);
+            int NewFocusedDay = 0;
+            if (FocusedDay <= 0)
+            {
+                NewFocusedDay = DaysInNewMonth + FocusedDay;
+            }
+            else
+            {
+                NewFocusedDay = FocusedDay - DaysInMonth;
+            }
+
+            return NewFocusedDay;
+        }
+
+        private List<Schedule> GetAllSchedules()
+        {
+            List<Schedule> ScheduleList = currentUser.GetSchedule();
+
+            foreach (User user in UserList)
+            {
+                if (user != currentUser)
+                {
+                    List<Schedule> selectedUserSchedule = user.GetSchedule();
+                    foreach (Schedule selectedSchedule in selectedUserSchedule)
+                    {
+                        if (selectedSchedule.GetInviteeList().Exists(x => x == currentUser))
+                        {
+                            ScheduleList.Add(selectedSchedule);
+                        }
+                    }
+                }
+            }
+
+
+            return ScheduleList;
+        }
+
+        private void ClearEditScheduleForm()
+        {
+            EditScheduleTitleTextBox.Text = "";
+            EditScheduleDescriptionTextBox.Text = "";
+            
+        }
+
+        private void FillEditScheduleForm()
+        {
+            EditScheduleTitleTextBox.Text = selectedSchedule.GetTitle();
+            EditScheduleDescriptionTextBox.Text = selectedSchedule.GetDescription();
+        }
+
+        private void FillScheduleComboBox()
+        {
+            SelectScheduleComboBox.Items.Clear();
+            foreach (Schedule schedule in currentUser.GetSchedule())
+            {
+                SelectScheduleComboBox.Items.Add(schedule.GetTitle());
+            }
+        }
+
+        private void FillUserComboBox()
+        {
+            AddInviteeComboBox.Items.Clear();
+            foreach (User user in UserList)
+            {
+                if (user != currentUser)
+                {
+                    AddInviteeComboBox.Items.Add(user.GetUsername());
+                }
+            }
+        }
+
+
         private void BtnNextValue_Click(object sender, RoutedEventArgs e)
         {
             int DateAdditionValue = 1;
@@ -434,50 +509,6 @@ namespace Calendar
                 DrawWeekCalendar(CurrentMonth, CurrentYear);
             }
         }
-
-        private int CalculateFocusedDay(int FocusedDay, int Month)
-        {
-            int DaysInNewMonth = DateTime.DaysInMonth(CurrentYear, Month);
-            int NewFocusedDay = 0;
-            if (FocusedDay <= 0)
-            {
-                NewFocusedDay = DaysInNewMonth + FocusedDay;
-            }
-            else
-            {
-                NewFocusedDay = FocusedDay - DaysInMonth;
-            }
-
-            return NewFocusedDay;
-        }
-
-        private List<Schedule> GetAllSchedules()
-        {
-            List<Schedule> ScheduleList = currentUser.GetSchedule();
-
-            foreach (User user in UserList)
-            {
-                if (user != currentUser)
-                {
-                    List<Schedule> selectedUserSchedule = user.GetSchedule();
-                    foreach (Schedule selectedSchedule in selectedUserSchedule)
-                    {
-                        if (selectedSchedule.GetInviteeList().Exists(x => x == user))
-                        {
-                            ScheduleList.Add(selectedSchedule);
-                        }
-                    }
-                }
-            }
-
-
-            return ScheduleList;
-        }
-
-
-
-
-
 
         private void BtnFocusWeek(object sender, MouseButtonEventArgs e)
         {
@@ -573,6 +604,7 @@ namespace Calendar
         {
             MainGrid.Visibility = Visibility.Visible;
             ScheduleFormGrid.Visibility = Visibility.Collapsed;
+            EditScheduleFormGrid.Visibility = Visibility.Collapsed;
         }
 
         private void StartingHourComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -584,6 +616,93 @@ namespace Calendar
             {
                 EndingHourComboBox.Items.Add(HoursNames[ComboBoxIndex]);
             }
+        }
+
+        private void BtnAddInvitee_Click(object sender, RoutedEventArgs e)
+        {
+            if (AddInviteeComboBox.SelectedItem == null || AddInviteeComboBox.SelectedIndex == -1)
+            {
+                MessageBox.Show("You have to choose a User", "Error");
+            }
+            else
+            {
+                String name = AddInviteeComboBox.SelectedValue.ToString();
+                selectedSchedule.AddInvitee(UserList.Find(x => x.GetUsername() == name));
+                MessageBox.Show("You have succesfully invited the user", "Success");
+            }
+        }
+
+        private void BtnRemoveSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            ClearEditScheduleForm();
+            MainGrid.Visibility = Visibility.Visible;
+            EditScheduleFormGrid.Visibility = Visibility.Collapsed;
+            currentUser.RemoveSchedule(selectedSchedule);
+            if (CurrentMode == "MONTH")
+            {
+                DrawMonthCalendar(CurrentMonth, CurrentYear);
+            }
+            else if (CurrentMode == "WEEK")
+            {
+                DrawWeekCalendar(CurrentMonth, CurrentYear);
+            }
+        }
+
+        private void BtnEditSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            ClearEditScheduleForm();
+            MainGrid.Visibility = Visibility.Collapsed;
+            EditScheduleFormGrid.Visibility = Visibility.Visible;
+            FillScheduleComboBox();
+        }
+
+        private void BtnEditCurrentSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            String title = EditScheduleTitleTextBox.Text;
+            String description = EditScheduleDescriptionTextBox.Text;
+            String starting_time = EditStartingHourComboBox.Text;
+            String ending_time = EditEndingHourComboBox.Text;
+            if ((title == "") || (starting_time == "") || (ending_time == "") || !(EditDateStartInput.SelectedDate.HasValue))
+            {
+                MessageBox.Show("You have to fill all inputs", "Error");
+            }
+            else
+            {
+                Double starting_hour = Convert.ToDouble(starting_time.Substring(0, 2));
+                Double ending_hour = Convert.ToDouble(ending_time.Substring(0, 2));
+                DateTime date_start = (DateTime)EditDateStartInput.SelectedDate;
+                DateTime date_end = (DateTime)EditDateStartInput.SelectedDate;
+                date_start = date_start.AddHours(starting_hour);
+                date_end = date_end.AddHours(ending_hour);
+                selectedSchedule.EditSchedule(title, description, date_start, date_end);
+                MainGrid.Visibility = Visibility.Visible;
+                EditScheduleFormGrid.Visibility = Visibility.Collapsed;
+                if (CurrentMode == "MONTH")
+                {
+                    DrawMonthCalendar(CurrentMonth, CurrentYear);
+                }
+                else if (CurrentMode == "WEEK")
+                {
+                    DrawWeekCalendar(CurrentMonth, CurrentYear);
+                }
+
+            }
+        }
+
+        private void SelectScheduleComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (SelectScheduleComboBox.SelectedItem == null || SelectScheduleComboBox.SelectedIndex == -1)
+            {
+                ClearEditScheduleForm();
+            }
+            else
+            {
+                String title = SelectScheduleComboBox.SelectedValue.ToString();
+                selectedSchedule = currentUser.GetSchedule().Find(x => x.GetTitle() == title);
+                FillEditScheduleForm();
+                FillUserComboBox();
+            }
+                
         }
     }
 }

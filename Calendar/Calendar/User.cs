@@ -21,6 +21,11 @@ namespace Calendar
             ScheduleList.Add(schedule);
         }
 
+        public void RemoveSchedule(Schedule schedule)
+        {
+            ScheduleList.Remove(schedule);
+        }
+
         public List<Schedule> GetSchedule()
         {
             return ScheduleList;

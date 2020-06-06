@@ -22,6 +22,14 @@ namespace Calendar
             DateEnd = date_end;
         }
 
+        public void EditSchedule(String title, String description, DateTime date_start, DateTime date_end)
+        {
+            Title = title;
+            Description = description;
+            DateStart = date_start;
+            DateEnd = date_end;
+        }
+
         public Boolean CheckStartingDate(int year, int month, int day)
         {
             if ((DateStart.Year == year) && (DateStart.Month == month) && (DateStart.Day == day)){
