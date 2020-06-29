@@ -8,40 +8,36 @@ namespace Calendar
 {
     class Schedule
     {
-        String Title;
-        String Description;
-        DateTime DateStart;
-        DateTime DateEnd;
+        private String title;
+        private String description;
+        private DateTime dateStart;
+        private DateTime dateEnd;
         private List<User> InviteeList = new List<User>();
 
-        public Schedule(String title, String description, DateTime date_start, DateTime date_end)
+        public Schedule(String title, String description, DateTime dateStart, DateTime dateEnd)
         {
-            Title = title;
-            Description = description;
-            DateStart = date_start;
-            DateEnd = date_end;
+            this.title = title;
+            this.description = description;
+            this.dateStart = dateStart;
+            this.dateEnd = dateEnd;
         }
 
-        public void EditSchedule(String title, String description, DateTime date_start, DateTime date_end)
+        public void EditSchedule(String title, String description, DateTime dateStart, DateTime dateEnd)
         {
-            Title = title;
-            Description = description;
-            DateStart = date_start;
-            DateEnd = date_end;
+            this.title = title;
+            this.description = description;
+            this.dateStart = dateStart;
+            this.dateEnd = dateEnd;
         }
 
         public Boolean CheckStartingDate(int year, int month, int day)
         {
-            if ((DateStart.Year == year) && (DateStart.Month == month) && (DateStart.Day == day)){
-                return true;
-            }
-
-            return false;
+            return (dateStart.Year == year) && (dateStart.Month == month) && (dateStart.Day == day);
         }
 
-        public void AddInvitee(User Invitee)
+        public void AddInvitee(User invitee)
         {
-            InviteeList.Add(Invitee);
+            InviteeList.Add(invitee);
         }
 
         public List<User> GetInviteeList()
@@ -51,22 +47,22 @@ namespace Calendar
 
         public String GetTitle()
         {
-            return Title;
+            return title;
         }
 
         public String GetDescription()
         {
-            return Description;
+            return description;
         }
 
         public DateTime GetStartingDate()
         {
-            return DateStart;
+            return dateStart;
         }
 
         public DateTime GetEndingDate()
         {
-            return DateEnd;
+            return dateEnd;
         }
 
     }

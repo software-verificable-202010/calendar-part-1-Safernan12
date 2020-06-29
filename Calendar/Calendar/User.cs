@@ -8,32 +8,32 @@ namespace Calendar
 {
     class User
     {
-        private String Username;
-        private List<Schedule> ScheduleList = new List<Schedule>();
+        private String username;
+        private List<Schedule> scheduleList = new List<Schedule>();
 
         public User(String name)
         {
-            Username = name;
+            username = name;
         }
 
         public void AddSchedule(Schedule schedule)
         {
-            ScheduleList.Add(schedule);
+            scheduleList.Add(schedule);
         }
 
         public void RemoveSchedule(Schedule schedule)
         {
-            ScheduleList.Remove(schedule);
+            scheduleList.Remove(schedule);
         }
 
         public List<Schedule> GetSchedule()
         {
-            return ScheduleList;
+            return scheduleList;
         }
 
         public String GetUsername()
         {
-            return Username;
+            return username;
         }
     }
 }
